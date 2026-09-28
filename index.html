@@ -786,9 +786,8 @@
         </div>
 
         <div>
-          <form class="kontakt-form" id="kontaktForm" name="kontakt" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-            <input type="hidden" name="form-name" value="kontakt">
-            <p style="position:absolute;left:-9999px;" aria-hidden="true"><label>Nevyplňujte: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+          <form class="kontakt-form" id="kontaktForm" action="https://formspree.io/f/mdekyejq" method="POST">
+            <p style="position:absolute;left:-9999px;" aria-hidden="true"><label>Nevyplňujte: <input name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
             <div class="cat-select" role="radiogroup" aria-label="Typ zprávy">
               <div class="cat-option">
                 <input type="radio" name="kategorie" id="katVeci" value="k-veci" checked>
@@ -969,7 +968,7 @@
       'mimo-vec': 'Děkujeme za zprávu — přečteme si ji, i když přímo nesouvisí se sochou.',
       'kos': 'Zpráva byla symbolicky vhozena do koše 🗑️ — ale díky, že jste nám napsali.'
     };
-    fetch('/', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:data })
+    fetch(form.action, { method:'POST', headers:{'Accept':'application/json'}, body:new FormData(form) })
       .then(function(r){
         if(!r.ok) throw new Error('fail');
         status.textContent = msgs[kat];
