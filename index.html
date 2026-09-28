@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>František Ulrich — socha pro čestného starostu Hradce Králové</title>
+<meta name="description" content="Iniciativa za sochu JUDr. Františka Ulricha, dlouholetého starosty Hradce Králové. Osobnost, historie pomníků, návrh sochy i místa, kde by měla stát.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+
+  /* ============ DESIGN TOKENS ============ */
+  :root{
+    --ink:#1f2a33;
+    --ink-soft:#4b5760;
+    --paper:#e9e2c9;
+    --paper-deep:#ddd2ab;
+    --card:#f8f4e6;
+    --card-line:rgba(31,42,33,0.14);
+    --brick:#8c3324;
+    --brick-dark:#6c2317;
+    --bronze:#8a6c2f;
+    --bronze-soft:#b79a56;
+    --white:#fffdf7;
+    --line:rgba(31,42,51,0.16);
+    --shadow: 0 1px 0 rgba(31,42,51,0.06);
+    --font-display:'Fraunces', serif;
+    --font-body:'IBM Plex Sans', system-ui, sans-serif;
+    --maxw:1160px;
+    --step:16px;
+    --radius:2px;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *,*::before,*::after{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:1.0625rem;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,h4{
+    font-family:var(--font-display);
+    color:var(--ink);
+    line-height:1.12;
+    margin:0 0 0.5em 0;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  h1{ font-size:clamp(2.5rem,5.6vw,4.4rem); font-weight:500; }
+  h2{ font-size:clamp(1.9rem,3.6vw,2.7rem); }
+  h3{ font-size:1.32rem; }
+  p{ margin:0 0 1.1em 0; max-width:64ch; }
+  a{ color:var(--brick); }
+  img{ max-width:100%; display:block; }
+  ul,ol{ padding-left:1.3em; }
+  li{ margin-bottom:0.5em; }
+
+  .visually-hidden{
+    position:absolute !important; width:1px;height:1px; overflow:hidden;
+    clip:rect(0 0 0 0); white-space:nowrap;
+  }
+
+  .skip-link{
+    position:absolute; left:1rem; top:-4rem;
+    background:var(--ink); color:var(--white); padding:0.8em 1.2em;
+    z-index:1000; transition:top .15s ease; border-radius:var(--radius);
+    font-family:var(--font-body); font-weight:600;
+  }
+  .skip-link:focus{ top:1rem; }
+
+  :focus-visible{ outline:3px solid var(--brick); outline-offset:3px; }
+
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 1.6rem; }
+
+  /* ============ STEPPED FRAME MOTIF ============ */
+  .stepped-frame{ position:relative; padding:14px; }
+  .stepped-frame::before{
+    content:""; position:absolute; inset:0;
+    background:var(--brick);
+    clip-path:polygon(
+      0 22px, 22px 22px, 22px 0,
+      calc(100% - 22px) 0, calc(100% - 22px) 22px, 100% 22px,
+      100% calc(100% - 22px), calc(100% - 22px) calc(100% - 22px), calc(100% - 22px) 100%,
+      22px 100%, 22px calc(100% - 22px), 0 calc(100% - 22px)
+    );
+  }
+  .stepped-frame > *{ position:relative; z-index:1; }
+  .stepped-frame.gold::before{ background:var(--bronze-soft); }
+
+  /* ============ HEADER / NAV ============ */
+  header.site-header{
+    position:sticky; top:0; z-index:500;
+    background:rgba(233,226,201,0.94);
+    backdrop-filter:saturate(140%) blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0.85rem 1.6rem; max-width:var(--maxw); margin:0 auto; gap:1rem;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:0.55em;
+    font-family:var(--font-display); font-weight:600; font-size:1.28rem;
+    color:var(--ink); text-decoration:none; white-space:nowrap;
+  }
+  .brand .mark{
+    font-style:italic; color:var(--brick); font-weight:500;
+  }
+  .brand small{ font-family:var(--font-body); font-weight:500; font-size:0.62rem; letter-spacing:0.06em; color:var(--ink-soft); display:block; }
+
+  nav.primary{ display:flex; align-items:center; gap:0.2rem; }
+  nav.primary ul{ list-style:none; display:flex; gap:0.1rem; margin:0; padding:0; align-items:center; }
+  nav.primary li{ margin:0; position:relative; }
+
+  .nav-link{
+    display:inline-flex; align-items:center; gap:0.3em;
+    padding:0.6em 0.85em; text-decoration:none; color:var(--ink);
+    font-weight:500; font-size:0.94rem; border-radius:var(--radius);
+    background:transparent; border:none; cursor:pointer; font-family:var(--font-body);
+  }
+  .nav-link:hover{ color:var(--brick); }
+  .nav-link .chev{
+    width:0; height:0; margin-left:0.2em; flex:none;
+    border-left:4px solid transparent; border-right:4px solid transparent; border-top:5px solid currentColor;
+    transition:transform .15s ease; display:inline-block;
+  }
+  li.has-drop.open .nav-link .chev{ transform:rotate(180deg); }
+
+  .dropdown{
+    position:absolute; top:calc(100% + 6px); left:0;
+    background:var(--card); border:1px solid var(--line);
+    min-width:270px; padding:0.5rem; box-shadow:0 14px 30px -10px rgba(31,42,51,0.3);
+    display:none; flex-direction:column; gap:0.1rem;
+  }
+  li.has-drop.open .dropdown{ display:flex; }
+  .dropdown a{
+    text-decoration:none; color:var(--ink); padding:0.6em 0.7em;
+    font-size:0.92rem; border-radius:var(--radius);
+  }
+  .dropdown a:hover{ background:var(--paper-deep); color:var(--brick); }
+  .dropdown a .desc{ display:block; font-size:0.8rem; color:var(--ink-soft); margin-top:0.1em; }
+
+  .cta-btn{
+    background:var(--brick); color:var(--white) !important; padding:0.62em 1.15em;
+    border-radius:var(--radius); font-weight:600; text-decoration:none; font-size:0.92rem;
+    white-space:nowrap; border:1px solid var(--brick);
+  }
+  .cta-btn:hover{ background:var(--brick-dark); border-color:var(--brick-dark); }
+
+  .menu-toggle{
+    display:none; background:none; border:1px solid var(--line); border-radius:var(--radius);
+    width:42px; height:38px; cursor:pointer; padding:0; position:relative;
+  }
+  .menu-toggle span, .menu-toggle span::before, .menu-toggle span::after{
+    content:""; position:absolute; left:10px; right:10px; height:2px; background:var(--ink);
+  }
+  .menu-toggle span{ top:18px; }
+  .menu-toggle span::before{ top:-7px; }
+  .menu-toggle span::after{ top:7px; }
+
+  /* ============ SECTIONS GENERIC ============ */
+  section{ padding:5.6rem 0; position:relative; }
+  section.alt{ background:var(--paper-deep); }
+  .folio{
+    font-family:var(--font-display); font-style:italic; font-weight:400;
+    color:var(--bronze-soft); font-size:1.05rem; margin-bottom:0.9rem; display:block;
+  }
+  .section-head{ max-width:720px; margin-bottom:2.6rem; }
+  .section-head p{ color:var(--ink-soft); font-size:1.08rem; }
+  hr.rule{ border:none; border-top:1px solid var(--line); margin:2.6rem 0; }
+
+  /* ============ HERO ============ */
+  .hero{ padding:3.4rem 0 5rem; }
+  .hero .wrap{ display:grid; grid-template-columns:1.15fr 0.85fr; gap:3.2rem; align-items:center; }
+  .hero-eyebrow{ font-family:var(--font-body); font-weight:600; font-size:0.8rem; letter-spacing:0.08em; color:var(--brick); margin-bottom:1rem; display:block; }
+  .hero h1{ margin-bottom:0.5rem; }
+  .hero .dates{ font-family:var(--font-display); font-style:italic; color:var(--bronze); font-size:1.25rem; margin-bottom:1.3rem; }
+  .hero p.lead{ font-size:1.14rem; color:var(--ink-soft); max-width:52ch; }
+  .hero-actions{ display:flex; gap:0.9rem; flex-wrap:wrap; margin-top:1.6rem; }
+  .btn{
+    display:inline-flex; align-items:center; gap:0.5em; padding:0.75em 1.3em;
+    border-radius:var(--radius); text-decoration:none; font-weight:600; font-size:0.96rem;
+    border:1.5px solid var(--ink);
+  }
+  .btn-primary{ background:var(--brick); border-color:var(--brick); color:var(--white); }
+  .btn-primary:hover{ background:var(--brick-dark); border-color:var(--brick-dark); }
+  .btn-ghost{ background:transparent; color:var(--ink); }
+  .btn-ghost:hover{ background:var(--ink); color:var(--white); }
+
+  .hero-portrait img{ width:100%; height:auto; display:block; }
+
+  .factline{ display:grid; grid-template-columns:repeat(4, minmax(auto,1fr)); gap:1.6rem 1.4rem; margin-top:2.6rem; padding-top:1.8rem; border-top:1px solid var(--line); }
+  .factline .fact b{ display:block; font-family:var(--font-display); font-size:1.7rem; color:var(--brick); font-weight:600; }
+  .factline .fact span{ display:block; font-size:0.8rem; color:var(--ink-soft); line-height:1.35; }
+
+  /* ============ O NAS ============ */
+  .people{ display:grid; grid-template-columns:repeat(2,1fr); gap:1.4rem; margin-top:2.2rem; }
+  .person-card{ background:var(--card); border:1px solid var(--card-line); padding:1.5rem 1.6rem; }
+  .person-card h3{ font-size:1.08rem; margin-bottom:0.3rem; }
+  .person-card p{ color:var(--ink-soft); font-size:0.95rem; margin:0; }
+  .join-note{ margin-top:1.8rem; padding:1.3rem 1.5rem; border-left:3px solid var(--brick); background:var(--card); }
+  .join-note p{ margin:0; max-width:60ch; }
+
+  /* ============ OSOBNOST SUBNAV ============ */
+  .subnav{ display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:2.6rem; }
+  .subnav a{
+    text-decoration:none; color:var(--ink); font-size:0.92rem; font-weight:600;
+    padding:0.55em 1em; border:1px solid var(--line); border-radius:999px; background:var(--card);
+  }
+  .subnav a:hover{ border-color:var(--brick); color:var(--brick); }
+
+  .bio-columns{ display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start; }
+  .bio-columns .portrait-side{ position:sticky; top:6.5rem; }
+  .bio-columns .portrait-side figcaption{ font-size:0.85rem; color:var(--ink-soft); margin-top:0.6rem; }
+
+  .pull-quote{
+    font-family:var(--font-display); font-style:italic; font-size:1.4rem; color:var(--ink);
+    border-left:3px solid var(--bronze-soft); padding-left:1.1rem; margin:2rem 0; max-width:52ch;
+  }
+
+  .timeline{ list-style:none; padding:0; margin:2rem 0 0; border-left:2px solid var(--line); }
+  .timeline li{ position:relative; padding:0 0 1.5rem 1.6rem; margin:0; }
+  .timeline li::before{
+    content:""; position:absolute; left:-6.5px; top:0.3em; width:11px; height:11px;
+    background:var(--brick); border-radius:50%; border:2px solid var(--paper);
+  }
+  .timeline .yr{ font-family:var(--font-display); font-weight:600; color:var(--brick); margin-right:0.5em; }
+
+  table.catalog{ width:100%; border-collapse:collapse; margin:1.4rem 0 2.2rem; font-size:0.94rem; }
+  table.catalog caption{ text-align:left; font-family:var(--font-display); font-style:italic; font-size:1.1rem; color:var(--bronze); margin-bottom:0.8rem; }
+  table.catalog th{ text-align:left; font-size:0.76rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft); font-weight:600; padding:0.6em 0.8em; border-bottom:2px solid var(--ink); }
+  table.catalog td{ padding:0.75em 0.8em; border-bottom:1px solid var(--line); vertical-align:top; }
+  table.catalog tr:last-child td{ border-bottom:none; }
+  table.catalog td.yr{ white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--ink-soft); }
+  table.catalog .lib{ white-space:nowrap; font-size:0.82rem; color:var(--bronze); font-weight:600; }
+  .catalog-legend{ font-size:0.85rem; color:var(--ink-soft); margin-top:-1rem; }
+
+  /* ============ HISTORIE - CASE FILES ============ */
+  .case-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1.8rem; margin-top:2.4rem; }
+  .case-file{ background:var(--card); border:1px solid var(--card-line); padding:2rem; display:flex; flex-direction:column; }
+  .case-file .case-no{ font-family:var(--font-display); font-style:italic; color:var(--bronze-soft); font-size:1rem; margin-bottom:0.4rem; }
+  .case-file h3{ margin-bottom:0.9rem; }
+  .status-stamp{
+    align-self:flex-start; margin-top:auto; margin-bottom:0; padding-top:1.4rem;
+  }
+  .status-stamp span{
+    display:inline-block; border:2px solid var(--brick); color:var(--brick);
+    font-family:var(--font-display); font-style:italic; font-weight:600;
+    padding:0.35em 0.9em; transform:rotate(-2deg); font-size:0.92rem;
+  }
+  .case-facts{ list-style:none; padding:0; margin:0 0 1.2rem 0; font-size:0.88rem; color:var(--ink-soft); }
+  .case-facts li{ margin-bottom:0.3em; }
+  .case-facts b{ color:var(--ink); font-weight:600; }
+
+  /* ============ SOCHA ============ */
+  .spec-sheet{ background:var(--card); border:1px solid var(--card-line); padding:2.2rem 2.4rem; margin-top:2rem; }
+  .spec-sheet h3{ display:flex; align-items:center; gap:0.6em; }
+  .spec-sheet .tag{ font-family:var(--font-body); font-size:0.7rem; font-weight:700; letter-spacing:0.06em; background:var(--brick); color:var(--white); padding:0.3em 0.6em; border-radius:999px; }
+  .spec-list{ list-style:none; padding:0; margin:1.3rem 0; display:grid; grid-template-columns:1fr 1fr; gap:0.7rem 1.6rem; }
+  .spec-list li{ padding-left:1.3em; position:relative; margin:0; font-size:0.98rem; }
+  .spec-list li::before{ content:"—"; position:absolute; left:0; color:var(--bronze); }
+  .sculptor-note{ font-size:0.95rem; color:var(--ink-soft); border-top:1px solid var(--line); padding-top:1.1rem; margin-top:0.6rem; }
+
+  .place-block{ display:grid; grid-template-columns:1fr 1fr; gap:2.6rem; align-items:start; margin-top:1rem; }
+  .photo-placeholder{
+    border:2px dashed var(--bronze-soft); background:var(--card);
+    aspect-ratio:4/3; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:2rem; color:var(--ink-soft); gap:0.6rem;
+  }
+  .photo-placeholder .icon{ font-size:2rem; opacity:0.6; }
+  .photo-placeholder .cap{ font-family:var(--font-display); font-style:italic; color:var(--ink); font-size:1.05rem; max-width:26ch; }
+  .photo-placeholder .hint{ font-size:0.78rem; }
+  .place-photo{ margin:0; }
+  .place-photo img{ width:100%; height:auto; }
+  .place-photo figcaption{ font-family:var(--font-display); font-style:italic; color:var(--ink); font-size:1.05rem; margin-top:0.8rem; text-align:center; }
+
+  .source-box{
+    margin-top:1.8rem; padding:1.1rem 1.4rem; background:var(--paper-deep);
+    border-radius:var(--radius); font-size:0.9rem; color:var(--ink-soft);
+  }
+  .source-box b{ color:var(--ink); }
+
+  /* ============ GALLERY ============ */
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:0.9rem; margin-top:2.2rem;
+  }
+  .gallery-item{
+    border:none; padding:0; background:none; cursor:zoom-in; position:relative;
+    overflow:hidden; aspect-ratio:3/4;
+  }
+  .gallery-item img{ width:100%; height:100%; object-fit:cover; transition:transform .35s ease; }
+  .gallery-item:hover img{ transform:scale(1.04); }
+  .gallery-item .cap{
+    position:absolute; left:0; right:0; bottom:0; padding:0.7em 0.8em 0.6em;
+    background:linear-gradient(to top, rgba(31,42,51,0.85), rgba(31,42,51,0));
+    color:var(--white); font-size:0.76rem; text-align:left; opacity:0; transition:opacity .2s ease;
+  }
+  .gallery-item:hover .cap, .gallery-item:focus-visible .cap{ opacity:1; }
+
+  .lightbox{
+    position:fixed; inset:0; background:rgba(20,16,10,0.92); z-index:1000;
+    display:none; align-items:center; justify-content:center; padding:2rem;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox figure{ max-width:min(90vw, 820px); margin:0; text-align:center; }
+  .lightbox img{ max-height:76vh; width:auto; margin:0 auto; border:6px solid var(--white); }
+  .lightbox figcaption{ color:var(--white); margin-top:1rem; font-family:var(--font-display); font-style:italic; font-size:1.05rem; }
+  .lightbox-close{
+    position:absolute; top:1.4rem; right:1.6rem; background:none; border:1px solid rgba(255,255,255,0.4);
+    color:var(--white); width:44px; height:44px; border-radius:50%; font-size:1.3rem; cursor:pointer;
+  }
+  .lightbox-nav{
+    background:none; border:1px solid rgba(255,255,255,0.4); color:var(--white);
+    width:44px; height:44px; border-radius:50%; font-size:1.2rem; cursor:pointer; position:absolute; top:50%; transform:translateY(-50%);
+  }
+  .lightbox-prev{ left:1.6rem; } .lightbox-next{ right:1.6rem; }
+
+  /* ============ KONTAKT ============ */
+  .kontakt-wrap{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:3.2rem; }
+  .kontakt-info p{ color:var(--ink-soft); }
+  .kontakt-info .addr{ margin-top:2rem; font-size:0.94rem; }
+  .kontakt-info .addr dt{ font-weight:600; color:var(--ink); margin-top:1em; }
+  .kontakt-info .addr dd{ margin:0; color:var(--ink-soft); }
+
+  .cat-select{ display:flex; gap:0.6rem; margin-bottom:1.6rem; flex-wrap:wrap; }
+  .cat-option{ position:relative; }
+  .cat-option input{ position:absolute; opacity:0; width:1px; height:1px; }
+  .cat-option label{
+    display:block; cursor:pointer; padding:0.65em 1.1em; border:1.5px solid var(--line);
+    border-radius:999px; font-weight:600; font-size:0.9rem; color:var(--ink-soft); background:var(--card);
+  }
+  .cat-option input:checked + label{ border-color:var(--brick); color:var(--brick); background:var(--white); }
+  .cat-option input:focus-visible + label{ outline:3px solid var(--brick); outline-offset:2px; }
+  .cat-hint{ font-size:0.86rem; color:var(--ink-soft); min-height:1.4em; margin:-0.6rem 0 1.6rem; }
+
+  form.kontakt-form label{ display:block; font-weight:600; font-size:0.92rem; margin-bottom:0.4em; }
+  form.kontakt-form .field{ margin-bottom:1.3rem; }
+  form.kontakt-form input[type=text], form.kontakt-form input[type=email], form.kontakt-form textarea{
+    width:100%; border:1.5px solid var(--line); background:var(--white); padding:0.75em 0.9em;
+    font-family:var(--font-body); font-size:0.98rem; color:var(--ink); border-radius:var(--radius);
+  }
+  form.kontakt-form input:focus, form.kontakt-form textarea:focus{ border-color:var(--brick); outline:none; }
+  form.kontakt-form textarea{ min-height:140px; resize:vertical; }
+  .form-status{ margin-top:1.2rem; padding:1rem 1.2rem; border-left:3px solid var(--brick); background:var(--card); display:none; }
+  .form-status.show{ display:block; }
+
+  /* ============ FOOTER ============ */
+  footer.site-footer{ background:var(--ink); color:rgba(255,253,247,0.82); padding:3.6rem 0 2.2rem; }
+  footer.site-footer .wrap{ display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:2.5rem; }
+  footer.site-footer h4{ color:var(--white); font-family:var(--font-body); font-size:0.82rem; letter-spacing:0.05em; text-transform:uppercase; font-weight:700; margin-bottom:1em; }
+  footer.site-footer .brand{ color:var(--white); }
+  footer.site-footer .brand .mark{ color:var(--bronze-soft); }
+  footer.site-footer p{ color:rgba(255,253,247,0.65); font-size:0.92rem; }
+  footer.site-footer ul{ list-style:none; padding:0; margin:0; }
+  footer.site-footer a{ color:rgba(255,253,247,0.82); text-decoration:none; font-size:0.92rem; }
+  footer.site-footer a:hover{ color:var(--bronze-soft); }
+  footer.site-footer li{ margin-bottom:0.6em; }
+  .foot-bottom{ max-width:var(--maxw); margin:2.6rem auto 0; padding:1.6rem 1.6rem 0; border-top:1px solid rgba(255,253,247,0.15); font-size:0.8rem; color:rgba(255,253,247,0.5); }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:980px){
+    nav.primary{ position:fixed; top:0; right:0; bottom:0; width:min(340px,86vw);
+      background:var(--card); box-shadow:-10px 0 30px rgba(0,0,0,0.2);
+      transform:translateX(100%); transition:transform .25s ease; z-index:600;
+      padding:5.5rem 1.6rem 2rem; overflow-y:auto;
+    }
+    nav.primary.open{ transform:translateX(0); }
+    nav.primary ul{ flex-direction:column; align-items:stretch; gap:0.2rem; }
+    .dropdown{ position:static; border:none; box-shadow:none; padding:0 0 0 1rem; min-width:0; }
+    li.has-drop .dropdown{ display:none; }
+    li.has-drop.open .dropdown{ display:flex; }
+    .cta-btn{ margin-top:1rem; text-align:center; }
+    .menu-toggle{ display:block; }
+    .nav-scrim{ display:none; position:fixed; inset:0; background:rgba(20,16,10,0.4); z-index:550; }
+    .nav-scrim.open{ display:block; }
+
+    .hero .wrap{ grid-template-columns:1fr; }
+    .hero-portrait{ order:-1; max-width:340px; margin:0 auto; }
+    .people{ grid-template-columns:1fr; }
+    .bio-columns{ grid-template-columns:1fr; }
+    .bio-columns .portrait-side{ position:static; max-width:280px; }
+    .case-grid{ grid-template-columns:1fr; }
+    .spec-list{ grid-template-columns:1fr; }
+    .place-block{ grid-template-columns:1fr; }
+    .gallery-grid{ grid-template-columns:repeat(2,1fr); }
+    .kontakt-wrap{ grid-template-columns:1fr; }
+    footer.site-footer .wrap{ grid-template-columns:1fr; }
+    section{ padding:3.6rem 0; }
+  }
+  @media (max-width:560px){
+    .gallery-grid{ grid-template-columns:repeat(2,1fr); }
+    .factline{ gap:1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hlavni-obsah">Přeskočit na obsah</a>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="#domov">
+      <span>
+        <small>INICIATIVA ZA SOCHU</small>
+        F.<span class="mark">Ulrich</span>
+      </span>
+    </a>
+
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Otevřít menu">
+      <span></span>
+    </button>
+
+    <nav class="primary" id="primaryNav">
+      <ul>
+        <li><a class="nav-link" href="#o-nas">O nás</a></li>
+        <li class="has-drop">
+          <button class="nav-link" aria-expanded="false">Osobnost Fr. Ulricha <span class="chev" aria-hidden="true"></span></button>
+          <div class="dropdown">
+            <a href="#zivotopis">Krátký životopis</a>
+            <a href="#knihy">Knihy Fr. Ulricha</a>
+            <a href="#clanky">Odborné a popularizující články</a>
+          </div>
+        </li>
+        <li><a class="nav-link" href="#historie">Historie pomníků</a></li>
+        <li class="has-drop">
+          <button class="nav-link" aria-expanded="false">Socha Fr. Ulricha <span class="chev" aria-hidden="true"></span></button>
+          <div class="dropdown">
+            <a href="#jakou-sochu">Jakou sochu potřebujeme</a>
+            <a href="#misto">Místo pro sochu</a>
+          </div>
+        </li>
+        <li><a class="nav-link" href="#galerie">Fotogalerie</a></li>
+        <li><a class="cta-btn" href="#kontakt">Napište nám</a></li>
+      </ul>
+    </nav>
+    <div class="nav-scrim" id="navScrim"></div>
+  </div>
+</header>
+
+<main id="hlavni-obsah">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="domov" aria-label="Úvod">
+    <div class="wrap">
+      <div class="hero-text">
+        <span class="hero-eyebrow">Hradec Králové · dluh, který trvá skoro sto let</span>
+        <h1>Muž, který zbavil město hradeb a udělal z něj Salon republiky.</h1>
+        <p class="dates">JUDr. František Ulrich, 1859 — 1939</p>
+        <p class="lead">Čestný starosta Hradce Králové stál 34 let v čele jeho proměny z uzavřené pevnosti v moderní krajskou metropoli. Socha, která by mu to připomněla, ve městě dosud chybí.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#zivotopis">Poznat jeho příběh</a>
+          <a class="btn btn-ghost" href="#o-nas">Kdo za tím stojí</a>
+        </div>
+
+        <div class="factline">
+          <div class="fact"><b>34</b><span>let ve funkci starosty</span></div>
+          <div class="fact"><b>7×</b><span>zvolen do čela města</span></div>
+          <div class="fact"><b>1921</b><span>čestným občanem HK</span></div>
+          <div class="fact"><b>0</b><span>sochy dosud stojí</span></div>
+        </div>
+      </div>
+
+      <div class="hero-portrait stepped-frame">
+        <img src="images/portret-hero.jpg" alt="Dobová sepiová fotografie Františka Ulricha ve zralém věku, s vlastnoručním podpisem v dolní části snímku">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ O NAS ============ -->
+  <section id="o-nas">
+    <div class="wrap">
+      <span class="folio">I.</span>
+      <div class="section-head">
+        <h2>Kdo jsme a co chceme</h2>
+        <p>Lidé za tímto webem se snaží různými způsoby dosáhnout toho, aby ve městě Hradec Králové vznikla socha jeho dlouholetého a čestného starosty JUDr. Františka Ulricha. Je to dluh města, který trvá už skoro sto let — ve volbách 1929, po 34 letech ve funkci starosty, už nekandidoval.</p>
+      </div>
+
+      <p>Cílem je, jednoduše řečeno, pomoci městu Hradec Králové s tím, aby se František Ulrich své sochy už konečně dočkal. Ve skrytu doufáme, že by se to mohlo podařit k roku 2029 — přesně sto let od chvíle, kdy Ulrich funkci opustil. Chceme pomoci městu všemi způsoby, kterých budeme schopni.</p>
+      <p>Snad budou mít nově zvolení zastupitelé pro Františka Ulricha více porozumění než ti, kteří v roce 2026 svůj mandát ukončí — jeden snímek před urnou jednou za čtyři roky není zrovna moc.</p>
+
+      <h3 style="margin-top:2.4rem;">Lidé stojící za tímto webem</h3>
+      <div class="people">
+        <div class="person-card">
+          <h3>David Kafka</h3>
+          <p>Někdejší ředitel Úřadu práce, zastupitel a radní, také někdejší poslanec a náměstek ministra.</p>
+        </div>
+        <div class="person-card">
+          <h3>Jan Petrof</h3>
+          <p>Někdejší jednatel a majitel podniku na výrobu klavírů Petrof, s.r.o.</p>
+        </div>
+      </div>
+
+      <div class="join-note">
+        <p>Pokud máte zájem, přihlaste se také. <a href="#kontakt">Napište nám</a> pár slov o sobě a o tom, jak byste chtěli pomoct.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OSOBNOST ============ -->
+  <section class="alt" id="osobnost">
+    <div class="wrap">
+      <span class="folio">II.</span>
+      <div class="section-head">
+        <h2>Osobnost Fr. Ulricha</h2>
+        <p>Renesanční osobnost, básník, právník i stavitel moderního města. Tři pohledy na jeho život a dílo — stručný životopis, jeho vlastní knihy a odborné texty, které o něm dosud vznikly.</p>
+      </div>
+
+      <div class="subnav">
+        <a href="#zivotopis">Krátký životopis</a>
+        <a href="#knihy">Knihy Fr. Ulricha</a>
+        <a href="#clanky">Odborné a popularizující články</a>
+      </div>
+
+      <!-- ---- ZIVOTOPIS ---- -->
+      <div id="zivotopis">
+        <h3>Krátký životopis</h3>
+        <div class="bio-columns">
+          <div>
+            <p>Město Hradec Králové v době jeho mládí bylo uzavřenou pevností — nějakých 220 domů, okolo hradební systém a za hradbami předměstí. Život města byl svázaný s armádou, ale také s národním obrozením.</p>
+            <p>František Ulrich se narodil 6. února 1859 v Hradci Králové v domě „U Špuláků", jeho otec byl ředitelem reálky. Jako dítě zažil bitvu s Pruskem a jejími následky. Po maturitě pokračoval ve studiích na Právnické fakultě Karlovy univerzity v Praze, kde promoval v roce 1881. Měl nesporné literární nadání a už za studií byl členem skupiny Lumírovců a publikoval básně i prózu se skupinou Máj; literární psaní ukončil až rokem 1900.</p>
+            <p>Po studiích provozoval v Hradci Králové advokátní praxi u advokáta Františka Srdínka a po získání doktorátu se oženil s jeho dcerou Ludmilou. Spolu měli tři děti — syna Karla a dcery Marii a Ludmilu. V roce 1888 si otevřel vlastní advokátní kancelář.</p>
+
+            <p>V roce 1889 se stal městským zastupitelem, tehdy pod starostou Hynkem Lhotským a náměstkem Ladislavem Janem Pospíšilem. Ten si jej vybral za svého adjunkta, když se zasazoval o výkup pevnostního opevnění, protože pevnost byla zrušena jako vojenský objekt v roce 1884. Jejich společným úsilím se po mnoha letech vše podařilo. Dne 3. března 1893, když L. J. Pospíšil oznamoval zastupitelstvu, že bylo dosaženo dohody, byl ještě na pódiu stižen mrtvicí a po třech dnech zemřel.</p>
+
+            <blockquote class="pull-quote">„Jednou frak, vždycky frak" — Ulrichův výrok, který dobře vystihuje jeho smysl pro reprezentaci úřadu.</blockquote>
+
+            <p>František Ulrich byl poté povolán do městské rady a ve volbách roku 1895 byl zvolen starostou města. Tím byl zvolen celkem sedmkrát a starostou zůstal až do roku 1929, tedy 34 let. Jeho nástupcem se stal Josef Václav Bohuslav Pilnáček.</p>
+            <p>Kromě toho byl dr. František Ulrich v letech 1901 a 1908 zvolen poslancem Sněmu království českého za Hradecko a Jaroměřsko. Dlouhodobě také působil v Okresním zastupitelstvu v Hradci Králové.</p>
+            <p>Dr. Ulrich byl předsedou renomovaného spolku Beseda a zajímal se o mnohé technické a rozvojové otázky — splavnění Labe, školství, zdravotní péči, dopravu, urbanismus i elektrifikaci. Výrazně se podílel na přípravě Hradecké hospodářské a národopisné výstavy v roce 1894, která zaznamenala velký úspěch. Ne úplně všechno se ovšem podařilo a některé jeho myšlenky předběhly svou dobu.</p>
+            <p>Podle současníků byl člověkem mimořádně pracovitým a svědomitým, pohotovým řečníkem, který uměl užít svého právního vzdělání. V kontaktu působil elegantně a reprezentativně, měl milé a vlídné vystupování gentlemana.</p>
+            <p>Funkce starosty se vzdal k překvapení všech v září 1929; důvod své rezignace nesdělil. Pobýval poté v rodině své dcery Ludmily v Rokycanech, kde také 18. května 1939 zemřel. Urna s jeho popelem byla dlouho ukrytá, po roce 1989 objevena a nyní je uložena v kolumbáriu Sboru kněze Ambrože.</p>
+
+            <hr class="rule">
+
+            <p>Pod Ulrichovým vedením se město Hradec Králové od přelomu 19. a 20. století začalo proměňovat z pevnosti „v poutech hradebních" v moderní metropoli celého kraje. K urbanistickému konceptu a řízenému architektonickému rozvoji přizval vynikající soudobé osobnosti, především Jana Kotěru a Josefa Gočára. Prosadil Hradec Králové jako sídlo důležitých podniků, úřadů a institucí. Za jeho starostování se rozvíjela celá městská infrastruktura — od škol až po elektrárnu a mosty.</p>
+            <p>Rozvoj města byl v poválečné ČSR pojmem — jezdily sem delegace z mnoha zemí, do „Salonu republiky". Kolem roku 1900 existovaly vedle sebe pevnosti Josefov a Hradec Králové. Bez osobností velikosti Pospíšila a Ulricha v čele města by dnešní Hradec Králové zřejmě vypadal dost podobně jako Josefov.</p>
+            <p>František Ulrich je od roku 1921 čestným občanem Hradce Králové a od roku 1933 jeho čestným starostou. V roce 1925 po něm pojmenovali nově zbudované náměstí. Několik let uděluje město i Cenu Františka Ulricha za počiny kulturní, vědecké nebo sportovní. V budově někdejšího ředitelství železnic, dnes Krajského ředitelství policie, stojí ve vestibulu jeho malá busta.</p>
+            <p>František Ulrich byl člověkem, který vysoce převyšoval komunální horizont. Lze říci, že člověk s jeho vlastnostmi a znalostmi mohl s jistotou zastávat nejvyšší státní funkce. Přesto svou celou energii věnoval našemu městu. Sotvakdy mu budeme dost vděční.</p>
+          </div>
+
+          <div class="portrait-side">
+            <figure class="stepped-frame gold">
+              <img src="images/portret-formalni.jpg" alt="Formální dobová fotografie Františka Ulricha v obleku, tříčtvrteční portrét">
+            </figure>
+            <figcaption>František Ulrich na formálním portrétu z doby svého starostování.</figcaption>
+
+            <ul class="timeline" style="margin-top:2.4rem;">
+              <li><span class="yr">1859</span>narození v Hradci Králové</li>
+              <li><span class="yr">1881</span>promoce na Právnické fakultě v Praze</li>
+              <li><span class="yr">1889</span>městský zastupitel</li>
+              <li><span class="yr">1895</span>poprvé zvolen starostou</li>
+              <li><span class="yr">1901 / 1908</span>poslanec Sněmu království českého</li>
+              <li><span class="yr">1921</span>čestný občan Hradce Králové</li>
+              <li><span class="yr">1929</span>rezignace na úřad starosty</li>
+              <li><span class="yr">1933</span>čestný starosta města</li>
+              <li><span class="yr">1939</span>úmrtí v Rokycanech</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <hr class="rule">
+
+      <!-- ---- KNIHY ---- -->
+      <div id="knihy">
+        <h3>Knihy Fr. Ulricha</h3>
+        <p>Přehled knih Františka Ulricha i publikací o něm, dosud dostupných ve veřejných sbírkách.</p>
+
+        <table class="catalog">
+          <caption>Díla Františka Ulricha</caption>
+          <thead>
+            <tr><th>Název</th><th>Rok</th><th>Knihovna</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Upomínka na počátek boření hradeb královéhradeckých 4. října 1884</td><td class="yr">1884</td><td class="lib">SVK</td></tr>
+            <tr><td>Písně svatební</td><td class="yr">1925</td><td class="lib">MVČ, SVK</td></tr>
+            <tr><td>Model — verše z let 1878 až 1879</td><td class="yr">1929</td><td class="lib">MVČ</td></tr>
+            <tr><td>Osvobození města z pout hradebních</td><td class="yr">1935</td><td class="lib">SVK</td></tr>
+          </tbody>
+        </table>
+
+        <table class="catalog">
+          <caption>Knihy a publikace o Františku Ulrichovi</caption>
+          <thead>
+            <tr><th>Autor</th><th>Název</th><th>Rok</th><th>Knihovna</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>—</td><td>Kytička blahopřejných projevů starostovi Hradce Králové JUDr. Františku Ulrichovi k jeho sedmdesátce</td><td class="yr">1929</td><td class="lib">MVČ</td></tr>
+            <tr><td>—</td><td>Síň král. věnného města Hradce Králové</td><td class="yr">1894</td><td class="lib">MVČ</td></tr>
+            <tr><td>Domečka Ludvík</td><td>Třicet let veřejné činnosti JUDra Fr. Ulricha</td><td class="yr">1925</td><td class="lib">MVČ</td></tr>
+            <tr><td>Fiala Jiří</td><td>Vzestup a pád Kralobanky — neúspěšný projekt starosty Hradce Králové Františka Ulricha</td><td class="yr">1980</td><td class="lib">SVK</td></tr>
+            <tr><td>Herain Karel</td><td>Ulrichův Hradec Králové</td><td class="yr">1930</td><td class="lib">MVČ</td></tr>
+            <tr><td>Sekanina František</td><td>Básník Fr. Ulrich</td><td class="yr">1933</td><td class="lib">MVČ</td></tr>
+            <tr><td>Škaloud Vladimír</td><td>Starosta Hradce Králové František Ulrich</td><td class="yr">1998</td><td class="lib">MVČ, SVK</td></tr>
+            <tr><td>Váňa Václav</td><td>Úspěšná činnost JUDr. Františka Ulricha ve snaze po úpravě středního Labe z Mělníka do Jaroměře</td><td class="yr">1939</td><td class="lib">MVČ</td></tr>
+          </tbody>
+        </table>
+        <p class="catalog-legend">MVČ = Knihovna Muzea východních Čech &nbsp;·&nbsp; SVK = Studijní a vědecká knihovna v Hradci Králové</p>
+      </div>
+
+      <hr class="rule">
+
+      <!-- ---- CLANKY ---- -->
+      <div id="clanky">
+        <h3>Některé odborné stati a popularizující články</h3>
+        <table class="catalog">
+          <thead>
+            <tr><th>Autor / autoři</th><th>Název</th><th>Zdroj</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Benýšková J., Fiala J., Grulich P., Musil J., Pavlík J., Pospíšilová J., Potůček J., Svatošová H.</td><td>Série článků</td><td>Královéhradecko, sv. 7</td></tr>
+            <tr><td>Doubek Zdeněk</td><td>Město Ulrichovo</td><td>Puls, ročník 1990, číslo 1</td></tr>
+            <tr><td>Kulhavá Zdeňka</td><td>JUDr. František Ulrich – muž, který stál u přeměny města</td><td>Salonky, ročník 2025</td></tr>
+            <tr><td>Lukášová Klára</td><td>František Ulrich v zrcadle rodinné korespondence</td><td>Královéhradecko, sv. 10</td></tr>
+            <tr><td>Mareček Petr</td><td>Hradecký starosta Ulrich byl muž s vizí</td><td>Mladá fronta Dnes, ročník 20, číslo 3</td></tr>
+            <tr><td>Pospíšilová Jaroslava</td><td>František Ulrich, pravý muž na pravém místě</td><td>Radnice, ročník 12, číslo 4</td></tr>
+            <tr><td>Potoček Josef</td><td>Kdo byl JUDr. František Ulrich</td><td>Radnice, ročník 4, číslo 11</td></tr>
+            <tr><td>Potoček Josef, Zimmermann Petr</td><td>František Ulrich, starosta, jakých se rodí málo</td><td>Hradecké noviny, 1994, čísla 31–36</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HISTORIE POMNIKU ============ -->
+  <section id="historie">
+    <div class="wrap">
+      <span class="folio">III.</span>
+      <div class="section-head">
+        <h2>Historie pomníků Fr. Ulricha</h2>
+        <p>Dva pokusy o pomník Františku Ulrichovi — a dvě poučení do třetice. Dnes už víme, že prostory našeho města neunesou pomník, ale sochu ano.</p>
+      </div>
+
+      <div class="case-grid">
+        <div class="case-file">
+          <span class="case-no">Pokus č. 1 · 2000–2005</span>
+          <h3>Nadační fond a soutěž, která nedopadla</h3>
+          <ul class="case-facts">
+            <li><b>Zřízeno:</b> 30. května 2000, vklad města 100 000 Kč</li>
+            <li><b>Soutěž vypsána:</b> 1. května 2002, dvoukolová</li>
+            <li><b>Výsledek:</b> vítězný návrh Pavla Doskočila, prosinec 2002</li>
+          </ul>
+          <p>Rada města dne 7. března 2000 odsouhlasila nadační fond a přípravný výbor. Nadační fond „Město Hradec Králové dr. Františku Ulrichovi" zřídilo zastupitelstvo o pár týdnů později. Správní radě se vcelku dařilo sbírat prostředky od fyzických i právnických osob, ale vznikl problém s lokací budoucího pomníku — o kterém se zatím ani nevědělo, jak bude vypadat. Občané, architekti, památkáři i skupiny architektů měli v tomto bodě různé a protichůdné názory.</p>
+          <p>Fond nakonec vypsal dvoukolovou architektonicko-výtvarnou soutěž na figurální pomník a úpravu jeho okolí na Ulrichově náměstí. Porota vybrala návrh Pavla Doskočila, který vzbudil údiv, zklamání i posměch — představoval starostu sedícího za stolem na vysokém pilíři; kdo chtěl detailnější pohled, mohl použít kukátko na druhé straně náměstí. Orgány památkové péče návrh označily za nepřípustný. Po odvoláních soutěž skončila, fond šel do likvidace a zbylé prostředky se vrátily městu.</p>
+          <div class="status-stamp"><span>Zrušeno, 2005</span></div>
+        </div>
+
+        <div class="case-file">
+          <span class="case-no">Pokus č. 2 · 2010–2011</span>
+          <h3>Diorit s bílou žílou přes hlavu</h3>
+          <ul class="case-facts">
+            <li><b>Autor:</b> sochař Stanislav Hanzík, doporučen spolkem Mánes</li>
+            <li><b>Materiál:</b> černý diorit, doplněk ze světlého kamene</li>
+            <li><b>Náklad:</b> 2 mil. Kč socha, 1,5 mil. Kč úprava okolí</li>
+          </ul>
+          <p>V roce 2010 oslovilo město přímo sochaře Stanislava Hanzíka, který za jeden rok vytvořil sochu Františka Ulricha z černého dioritu s doplňkem ze světlého kamene s náznakem regulačního plánu města. Diorit ale nebyl dost velký, takže nevyšlo dost kamene na ruce, a v horní partii měl bílou žílu procházející přes hlavu.</p>
+          <p>Socha byla umístěna na Náměstí Svobody v listopadu 2010 a hned se na ni snesly vlny kritiky — kromě obličeje s bílou žílou jí vyčítali shrbený postoj i hrubé opracování. Vadilo také umístění, které kolidovalo s každoročními výstavami soch z hořického sympozia. Magistrát kritiku neunesl a v červenci 2011 byl pomník z místa odvezen a uložen v areálu Technických služeb. Město ho sice reklamovalo, ale bez úspěchu; prodat se ho nepodařilo, a tak leží kdesi v bednách dodnes. Stanislav Hanzík zemřel v roce 2021.</p>
+          <div class="status-stamp"><span>Odstraněno, 2011</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOCHA ============ -->
+  <section class="alt" id="socha">
+    <div class="wrap">
+      <span class="folio">IV.</span>
+      <div class="section-head">
+        <h2>Socha Fr. Ulricha</h2>
+        <p>Z obou předchozích pokusů víme jedno jistě: nechceme pomník, chceme sochu. A víme také, kam patří.</p>
+      </div>
+
+      <div id="jakou-sochu">
+        <h3>Jakou sochu potřebujeme?</h3>
+        <p>Každý umělec pro dobrou práci potřebuje zadání — jistě ne detailní, ale takové, aby zadávající nebyl nemile překvapen. Na tomto místě očekáváme i vaše názory, jak by ztvárnění k uctění starosty Františka Ulricha mělo vypadat. Rádi je zde zveřejníme.</p>
+        <p>Podle našeho názoru, který vzešel ze dvou předchozích pokusů, víme, že nechceme pomník, ale jen sochu. Dílo musí zcela jistě a nezpochybnitelně realisticky vystihovat mnohostrannou osobnost Františka Ulricha a dobu prvních dvaceti až třiceti let minulého století. K tomu lze jistě autorsky ledacos přidat. Toto zadání nazvěme třeba Klasik.</p>
+
+        <div class="spec-sheet">
+          <h3>Zadání „Klasik" <span class="tag">návrh k diskusi</span></h3>
+          <ul class="spec-list">
+            <li>Realistická figura, stojící nebo sedící</li>
+            <li>Oděv dobový — známý je jeho výrok „Jednou frak, vždycky frak"</li>
+            <li>Velikost postavy přibližně 1,7–1,9 m</li>
+            <li>Skutečná podoba obličeje</li>
+            <li>Sokl nízký, s možností textů</li>
+            <li>Možnost udělat si se sochou fotografii</li>
+          </ul>
+          <p class="sculptor-note">Pokud jde o realizátora, jsme toho mínění, že vhodným sochařem, jenž je práv takové práce, by byl pan <strong>Petr Novák</strong> z Jaroměře. Je za ním rozsáhlé a hodnotné dílo, například Pomník padlým koním ve Střezeticích.</p>
+        </div>
+      </div>
+
+      <hr class="rule">
+
+      <div id="misto">
+        <h3>Místo pro sochu</h3>
+        <p>Dnes jsou za námi dalekosáhlé diskuze, které provázely první dva pokusy. Některé návrhy byly zřejmě dobře míněné, ale v otázce lokace na Ulrichově náměstí obstály jen chabě. Oba pokusy provázela ničím neopodstatněná teze, že umístění jakékoli sochy na Ulrichově náměstí si nepřál ani sám architekt Josef Gočár. Není jasné, kde se takový názor vzal, ale mezi odbornou veřejností se dlouho objevoval.</p>
+
+        <div class="place-block">
+          <div>
+            <p>Konec onomu lokačnímu sporu učinil <em>Stavebněhistorický průzkum Ulrichova náměstí</em> z roku 2025 (autoři Jakub Krček a Alžběta Karlová). Na straně 26 se praví, že sochař Bohumil Kafka měl v roce 1938 odlít bustu Františka Ulricha, ale válečné události realizaci zhatily. V roce 1939 bývalý starosta umírá a rada města — poněkud opožděně — reaguje na Gočárův dopis z roku 1936, v němž se architekt dotazuje na realizaci Ulrichova pomníku, a pokud ano, na „místo před Ředitelstvím státních drah". Tam ostatně Gočár sochu situoval i na všech variantách náměstí z let 1925 až 1930.</p>
+            <p>Doporučujeme čtenáři, aby si citovanou pasáž přečetl v originále. K výše uvedené studii přikládáme i listinu z okresního archivu, potvrzující její tvrzení.</p>
+            <p><strong>Skutečnost je tedy taková, že už sto let je Ulrichovo náměstí — podle vlastního architekta — místem, kde má socha Františka Ulricha stát.</strong></p>
+
+            <div class="source-box">
+              <b>Zdroj:</b> Stavebněhistorický průzkum Ulrichova náměstí (2025), Jakub Krček, Alžběta Karlová, str. 26. Doloženo listinou z okresního archivu.
+            </div>
+          </div>
+
+          <figure class="place-photo stepped-frame gold">
+            <img src="images/namesti-misto.jpg" alt="Ulrichovo náměstí dnes — budova bývalého ředitelství drah, dnes Krajské ředitelství policie, s dřevěnou ohradou před vstupem">
+            <figcaption>„Socha by měla stát na místě dřevěné ohrady"</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALERIE ============ -->
+  <section id="galerie">
+    <div class="wrap">
+      <span class="folio">V.</span>
+      <div class="section-head">
+        <h2>Fotogalerie</h2>
+        <p>Dobové portréty a pamětní medaile Františka Ulricha. Klikněte na snímek pro zvětšení.</p>
+      </div>
+
+      <div class="gallery-grid" id="galleryGrid">
+        <button class="gallery-item" data-img="images/portret-hero.jpg" data-cap="Sepiový portrét s vlastnoručním podpisem Fr. Ulricha">
+          <img src="images/portret-hero.jpg" alt="Sepiový portrét Františka Ulricha s podpisem">
+          <span class="cap">Portrét s podpisem</span>
+        </button>
+        <button class="gallery-item" data-img="images/portret-formalni.jpg" data-cap="Formální fotografie Františka Ulricha v obleku">
+          <img src="images/portret-formalni.jpg" alt="Formální fotografie Františka Ulricha">
+          <span class="cap">Formální portrét</span>
+        </button>
+        <button class="gallery-item" data-img="images/portret-kresba.jpg" data-cap="Dobová kresba Františka Ulricha, přelom 20. let 20. století">
+          <img src="images/portret-kresba.jpg" alt="Kresebný portrét Františka Ulricha">
+          <span class="cap">Kresebný portrét</span>
+        </button>
+        <button class="gallery-item" data-img="images/portret-skica.jpg" data-cap="Detailní studie tváře Františka Ulricha">
+          <img src="images/portret-skica.jpg" alt="Kresebná studie tváře Františka Ulricha">
+          <span class="cap">Studie tváře</span>
+        </button>
+        <button class="gallery-item" data-img="images/medaile.jpg" data-cap="Pamětní medaile ke cti starosty Hradce Králové JUDr. Františka Ulricha, 1859–1939">
+          <img src="images/medaile.jpg" alt="Pamětní medaile Františka Ulricha se znakem kraje">
+          <span class="cap">Pamětní medaile</span>
+        </button>
+        <button class="gallery-item" data-img="images/navsteva-tgm.jpg" data-cap="František Ulrich (vlevo) při návštěvě prezidenta T. G. Masaryka v Hradci Králové">
+          <img src="images/navsteva-tgm.jpg" alt="Skupina mužů v oblecích na ulici při návštěvě prezidenta T. G. Masaryka, mezi nimi František Ulrich">
+          <span class="cap">Při návštěvě T. G. Masaryka</span>
+        </button>
+        <button class="gallery-item" data-img="images/namesti-misto.jpg" data-cap="Ulrichovo náměstí dnes, s místem navrhovaným pro sochu">
+          <img src="images/namesti-misto.jpg" alt="Ulrichovo náměstí v současnosti s budovou Krajského ředitelství policie">
+          <span class="cap">Ulrichovo náměstí dnes</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ KONTAKT ============ -->
+  <section class="alt" id="kontakt">
+    <div class="wrap">
+      <span class="folio">VI.</span>
+      <div class="kontakt-wrap">
+        <div class="kontakt-info">
+          <h2>Napište nám</h2>
+          <p>Máte podklady, nápad na podobu sochy, chcete se zapojit, nebo jen máte otázku? Ozvěte se — čteme všechno, i to, co si sami rovnou zařadíte do koše.</p>
+
+          <dl class="addr">
+            <dt>Iniciativa za sochu Fr. Ulricha</dt>
+            <dd>Hradec Králové</dd>
+            <dt>E-mail</dt>
+            <dd>info@socha-ulrich.cz <span style="font-size:0.8em;">(ukázková adresa)</span></dd>
+          </dl>
+        </div>
+
+        <div>
+          <form class="kontakt-form" id="kontaktForm" name="kontakt" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="kontakt">
+            <p style="position:absolute;left:-9999px;" aria-hidden="true"><label>Nevyplňujte: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+            <div class="cat-select" role="radiogroup" aria-label="Typ zprávy">
+              <div class="cat-option">
+                <input type="radio" name="kategorie" id="katVeci" value="k-veci" checked>
+                <label for="katVeci">K věci</label>
+              </div>
+              <div class="cat-option">
+                <input type="radio" name="kategorie" id="katMimo" value="mimo-vec">
+                <label for="katMimo">Mimo věc</label>
+              </div>
+              <div class="cat-option">
+                <input type="radio" name="kategorie" id="katKos" value="kos">
+                <label for="katKos">Koš</label>
+              </div>
+            </div>
+            <p class="cat-hint" id="catHint">Máte nápad, podklady, chcete se zapojit nebo přispět? Sem s tím.</p>
+
+            <div class="field">
+              <label for="jmeno">Jméno a příjmení</label>
+              <input type="text" id="jmeno" name="jmeno" required autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" required autocomplete="email">
+            </div>
+            <div class="field">
+              <label for="zprava">Zpráva</label>
+              <textarea id="zprava" name="zprava" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Odeslat zprávu</button>
+
+            <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div>
+      <a class="brand" href="#domov">F.<span class="mark">Ulrich</span></a>
+      <p style="margin-top:1rem;">Iniciativa občanů Hradce Králové za vznik sochy JUDr. Františka Ulricha, čestného starosty města.</p>
+    </div>
+    <div>
+      <h4>Obsah</h4>
+      <ul>
+        <li><a href="#o-nas">O nás</a></li>
+        <li><a href="#zivotopis">Osobnost Fr. Ulricha</a></li>
+        <li><a href="#historie">Historie pomníků</a></li>
+        <li><a href="#socha">Socha Fr. Ulricha</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Další</h4>
+      <ul>
+        <li><a href="#galerie">Fotogalerie</a></li>
+        <li><a href="#kontakt">Napište nám</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">© Iniciativa za sochu Fr. Ulricha. Texty a podklady poskytnuty iniciativou, dobové fotografie z rodinného archivu.</div>
+</footer>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Zvětšený obrázek">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Zavřít">✕</button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Předchozí obrázek">‹</button>
+  <figure>
+    <img id="lightboxImg" src="" alt="">
+    <figcaption id="lightboxCap"></figcaption>
+  </figure>
+  <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Další obrázek">›</button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---- mobile menu ---- */
+  var toggle = document.getElementById('menuToggle');
+  var nav = document.getElementById('primaryNav');
+  var scrim = document.getElementById('navScrim');
+
+  function closeMenu(){
+    nav.classList.remove('open');
+    scrim.classList.remove('open');
+    toggle.setAttribute('aria-expanded','false');
+  }
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    scrim.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  scrim.addEventListener('click', closeMenu);
+
+  /* ---- dropdowns ---- */
+  document.querySelectorAll('li.has-drop').forEach(function(li){
+    var btn = li.querySelector('button.nav-link');
+    btn.addEventListener('click', function(){
+      var isOpen = li.classList.contains('open');
+      document.querySelectorAll('li.has-drop.open').forEach(function(o){
+        if(o!==li){ o.classList.remove('open'); o.querySelector('button').setAttribute('aria-expanded','false'); }
+      });
+      li.classList.toggle('open', !isOpen);
+      btn.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
+    });
+  });
+  document.addEventListener('click', function(e){
+    document.querySelectorAll('li.has-drop.open').forEach(function(li){
+      if(!li.contains(e.target)){ li.classList.remove('open'); li.querySelector('button').setAttribute('aria-expanded','false'); }
+    });
+  });
+
+  /* close mobile menu / dropdown when a link is chosen */
+  document.querySelectorAll('nav.primary a').forEach(function(a){
+    a.addEventListener('click', function(){
+      closeMenu();
+      document.querySelectorAll('li.has-drop.open').forEach(function(li){ li.classList.remove('open'); });
+    });
+  });
+
+  /* ---- gallery + lightbox ---- */
+  var items = Array.prototype.slice.call(document.querySelectorAll('.gallery-item'));
+  var lightbox = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightboxImg');
+  var lbCap = document.getElementById('lightboxCap');
+  var current = 0;
+
+  function openLightbox(i){
+    current = i;
+    var it = items[i];
+    lbImg.src = it.getAttribute('data-img');
+    lbImg.alt = it.getAttribute('data-cap');
+    lbCap.textContent = it.getAttribute('data-cap');
+    lightbox.classList.add('open');
+    document.getElementById('lightboxClose').focus();
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    lbImg.src = '';
+  }
+  items.forEach(function(it, i){
+    it.addEventListener('click', function(){ openLightbox(i); });
+  });
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  document.getElementById('lightboxPrev').addEventListener('click', function(){ openLightbox((current-1+items.length)%items.length); });
+  document.getElementById('lightboxNext').addEventListener('click', function(){ openLightbox((current+1)%items.length); });
+  lightbox.addEventListener('click', function(e){ if(e.target===lightbox){ closeLightbox(); } });
+  document.addEventListener('keydown', function(e){
+    if(!lightbox.classList.contains('open')) return;
+    if(e.key==='Escape') closeLightbox();
+    if(e.key==='ArrowRight') openLightbox((current+1)%items.length);
+    if(e.key==='ArrowLeft') openLightbox((current-1+items.length)%items.length);
+  });
+
+  /* ---- contact form category hint ---- */
+  var hints = {
+    'k-veci': 'Máte nápad, podklady, chcete se zapojit nebo přispět? Sem s tím.',
+    'mimo-vec': 'Chcete napsat cokoli, co přímo nesouvisí se sochou? I to rádi přečteme.',
+    'kos': 'Sem patří kritika bez konstruktivního jádra, spam a podobně — i tak si zprávu přečteme.'
+  };
+  var catHint = document.getElementById('catHint');
+  document.querySelectorAll('input[name=kategorie]').forEach(function(r){
+    r.addEventListener('change', function(){ catHint.textContent = hints[r.value]; });
+  });
+
+  /* ---- contact form submit (demo only, no backend wired) ---- */
+  var form = document.getElementById('kontaktForm');
+  var status = document.getElementById('formStatus');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var kat = form.querySelector('input[name=kategorie]:checked').value;
+    var data = new URLSearchParams(new FormData(form)).toString();
+    var msgs = {
+      'k-veci': 'Děkujeme! Vaši zprávu jsme zařadili k věci a brzy se ozveme.',
+      'mimo-vec': 'Děkujeme za zprávu — přečteme si ji, i když přímo nesouvisí se sochou.',
+      'kos': 'Zpráva byla symbolicky vhozena do koše 🗑️ — ale díky, že jste nám napsali.'
+    };
+    fetch('/', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:data })
+      .then(function(r){
+        if(!r.ok) throw new Error('fail');
+        status.textContent = msgs[kat];
+        status.classList.add('show');
+        form.reset();
+        catHint.textContent = hints['k-veci'];
+      })
+      .catch(function(){
+        status.textContent = 'Zprávu se nepodařilo odeslat. Zkuste to prosím znovu.';
+        status.classList.add('show');
+      });
+  });
+
+  /* ---- scrollspy active nav state ---- */
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('nav.primary a[href^="#"]'));
+  if('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          var id = entry.target.getAttribute('id');
+          navLinks.forEach(function(a){
+            a.style.color = (a.getAttribute('href') === '#'+id) ? 'var(--brick)' : '';
+          });
+        }
+      });
+    }, { rootMargin:'-45% 0px -50% 0px' });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+})();
+</script>
+
+</body>
+</html>
